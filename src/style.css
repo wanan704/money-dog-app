@@ -1,0 +1,59 @@
+:root {
+  --md-primary: #534AB7;
+  --md-bg: #f7f6fb;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--md-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+}
+
+#app {
+  max-width: 540px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--md-bg);
+}
+
+.page {
+  padding-bottom: 70px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 12px 12px 0;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #323233;
+  margin: 18px 16px 4px;
+}
+
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 90px;
+  z-index: 99;
+}
+
+.muted {
+  color: #969799;
+  font-size: 13px;
+}
+
+/* 顶部导航使用主题色 */
+.van-nav-bar {
+  --van-nav-bar-background: var(--md-primary);
+  --van-nav-bar-title-text-color: #fff;
+  --van-nav-bar-icon-color: #fff;
+  --van-nav-bar-text-color: #fff;
+}
