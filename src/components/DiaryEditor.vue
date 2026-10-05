@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, toRaw } from 'vue'
 import dayjs from 'dayjs'
 import { showToast } from 'vant'
 import { db } from '../db'
@@ -71,21 +71,24 @@ function close() {
 
 async function save() {
   const now = Date.now()
-  if (props.entry?.id) {
-    await db.diary.update(props.entry.id, {
-      date: date.value,
-      content: content.value.trim(),
-      images: images.value,
-      updatedAt: now
-    })
-  } else {
-    await db.diary.add({
-      date: date.value,
-      content: content.value.trim(),
-      images: images.value,
-      createdAt: now,
-      updatedAt: now
-    })
+  // 关键修复：images.value 是 Vue reactive Proxy，IndexedDB 无法克隆 Proxy（DataCloneError）
+  // 必须用 toRaw 解包成原始数组后再入库
+  const rawImages = toRaw(images.value)
+  const payload = {
+    date: date.value,
+    content: content.value.trim(),
+    images: rawImages
+  }
+  try {
+    if (props.entry?.id) {
+      await db.diary.update(props.entry.id, { ...payload, updatedAt: now })
+    } else {
+      await db.diary.add({ ...payload, createdAt: now, updatedAt: now })
+    }
+  } catch (e) {
+    console.error('保存日记失败:', e)
+    showToast('保存失败：' + (e.message || '请重试'))
+    return
   }
   showToast('已记下，做得好')
   emit('saved')
