@@ -2,7 +2,7 @@
   <div class="page">
     <van-nav-bar title="愿望清单" />
 
-    <van-tabs v-model:active="tab" color="#534AB7">
+    <van-tabs v-model:active="tab" color="var(--md-primary)">
       <van-tab title="进行中" />
       <van-tab title="已实现" />
     </van-tabs>
@@ -20,7 +20,7 @@
       />
       <img v-if="w.cover" :src="blobUrl(w.cover)" class="cover" />
       <div v-else class="cover placeholder">
-        <van-icon name="star" size="20" color="#fff" />
+        <van-icon name="star" size="20" color="#c8c9cc" />
       </div>
       <div class="wish-body">
         <div class="wish-title" :class="{ done: w.done }">

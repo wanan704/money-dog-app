@@ -5,7 +5,7 @@
     </router-view>
 
     <!-- 底部导航：愿望详情页不显示 -->
-    <van-tabbar v-if="showTabbar" route active-color="#534AB7" inactive-color="#7d7e80">
+    <van-tabbar v-if="showTabbar" route active-color="var(--md-primary)" inactive-color="#7d7e80">
       <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item to="/diary" icon="edit">日记</van-tabbar-item>
       <van-tabbar-item to="/wishes" icon="star-o">愿望</van-tabbar-item>

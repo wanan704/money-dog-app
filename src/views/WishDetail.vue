@@ -34,7 +34,7 @@
           <span class="saving-num">¥{{ savedSum }}</span>
           <span class="muted">目标 ¥{{ wish.targetAmount }} · {{ progress }}%</span>
         </div>
-        <van-progress :percentage="progress" stroke-width="10" color="#534AB7" style="margin: 10px 0" />
+        <van-progress :percentage="progress" stroke-width="10" color="var(--md-primary)" style="margin: 10px 0" />
         <van-button size="small" type="primary" round @click="showSaving = true">存一笔</van-button>
         <div v-for="s in savingsList" :key="s.id" class="saving-item">
           <span>+¥{{ s.amount }} <span class="muted">{{ s.note }}</span></span>

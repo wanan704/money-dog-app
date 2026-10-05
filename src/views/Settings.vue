@@ -9,7 +9,7 @@
           <van-switch
             :model-value="themeMode === 'dark'"
             size="20"
-            active-color="#534AB7"
+            active-color="var(--md-primary)"
             @update:model-value="toggleTheme"
           />
         </template>
@@ -20,7 +20,7 @@
     <van-cell-group inset>
       <van-cell title="开启提醒">
         <template #right-icon>
-          <van-switch v-model="reminderEnabled" size="20" active-color="#534AB7" @change="saveReminder" />
+          <van-switch v-model="reminderEnabled" size="20" active-color="var(--md-primary)" @change="saveReminder" />
         </template>
       </van-cell>
       <van-cell title="提醒时间" :value="reminderTime" is-link @click="showTimePicker = true" />

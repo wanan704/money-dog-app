@@ -28,7 +28,7 @@
           v-if="w.targetAmount"
           :percentage="w.progress"
           stroke-width="6"
-          color="#534AB7"
+          color="var(--md-primary)"
         />
       </div>
     </div>
@@ -138,7 +138,7 @@ onMounted(load)
   border-radius: 8px;
 }
 .wish-cover.placeholder {
-  background: var(--md-primary);
+  background: var(--md-soft);
   display: flex;
   align-items: center;
   justify-content: center;
