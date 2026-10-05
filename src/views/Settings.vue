@@ -72,7 +72,7 @@ const showTimePicker = ref(false)
 const timeArr = ref(['21', '00'])
 const fileInput = ref(null)
 // 构建时间由 vite define 注入，用于核对手机端是否已更新到最新版
-const versionText = `1.1.0（构建 ${typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : 'dev'}）`
+const versionText = `1.1.1（构建 ${typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : 'dev'}）`
 
 const permissionText = computed(() => {
   if (!('Notification' in window)) return '不支持'
