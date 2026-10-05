@@ -16,7 +16,7 @@ export default defineConfig({
         name: '小狗钱钱 · 成长日记',
         short_name: '钱钱日记',
         description: '成功日记 · 愿望清单 · 梦想相册 · 梦想储蓄罐',
-        theme_color: '#534AB7',
+        theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: './',

@@ -44,6 +44,7 @@
     <div class="section-title">关于</div>
     <van-cell-group inset>
       <van-cell title="钱钱日记" label="成功日记 · 愿望清单 · 梦想相册 · 梦想储蓄罐" />
+      <van-cell title="检查更新" label="手动拉取最新版本" is-link @click="checkUpdate" />
       <van-cell title="版本" :value="versionText" />
     </van-cell-group>
 
@@ -72,7 +73,7 @@ const showTimePicker = ref(false)
 const timeArr = ref(['21', '00'])
 const fileInput = ref(null)
 // 构建时间由 vite define 注入，用于核对手机端是否已更新到最新版
-const versionText = `1.2.1（构建 ${typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : 'dev'}）`
+const versionText = `1.2.2（构建 ${typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : 'dev'}）`
 
 const permissionText = computed(() => {
   if (!('Notification' in window)) return '不支持'
@@ -145,6 +146,36 @@ async function doImport(e) {
     showToast('恢复成功')
   } catch (err) {
     showToast('导入失败：' + err.message)
+  }
+}
+
+async function checkUpdate() {
+  if (!('serviceWorker' in navigator)) {
+    showToast('当前环境不支持 PWA 更新')
+    return
+  }
+  showToast('正在检查…')
+  try {
+    const registration = await navigator.serviceWorker.ready
+    await registration.update()
+    // 让 SW 立即接管
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing
+      if (newWorker) {
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'activated') {
+            showToast('已更新，即将刷新')
+            setTimeout(() => window.location.reload(), 1200)
+          }
+        })
+        newWorker.postMessage({ type: 'SKIP_WAITING' })
+      }
+    })
+    setTimeout(() => {
+      showToast('如果未自动刷新，请手动关闭 App 再打开')
+    }, 2500)
+  } catch (e) {
+    showToast('检查失败：' + (e.message || '请确认网络可用'))
   }
 }
 
