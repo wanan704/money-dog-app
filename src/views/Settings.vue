@@ -44,7 +44,7 @@
     <div class="section-title">关于</div>
     <van-cell-group inset>
       <van-cell title="钱钱日记" label="成功日记 · 愿望清单 · 梦想相册 · 梦想储蓄罐" />
-      <van-cell title="版本" value="1.0.0" />
+      <van-cell title="版本" :value="versionText" />
     </van-cell-group>
 
     <van-popup v-model:show="showTimePicker" position="bottom" round>
@@ -71,6 +71,8 @@ const reminderTime = ref('21:00')
 const showTimePicker = ref(false)
 const timeArr = ref(['21', '00'])
 const fileInput = ref(null)
+// 构建时间由 vite define 注入，用于核对手机端是否已更新到最新版
+const versionText = `1.1.0（构建 ${typeof __BUILD_TIME__ !== 'undefined' ? __BUILD_TIME__ : 'dev'}）`
 
 const permissionText = computed(() => {
   if (!('Notification' in window)) return '不支持'
