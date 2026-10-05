@@ -122,8 +122,12 @@ async function toggleDone() {
 async function addImages(items) {
   const list = Array.isArray(items) ? items : [items]
   for (const item of list) {
-    const blob = await compressImage(item.file)
-    await db.wishImages.add({ wishId, image: blob, createdAt: Date.now() })
+    try {
+      const blob = await compressImage(item.file)
+      await db.wishImages.add({ wishId, image: blob, createdAt: Date.now() })
+    } catch (e) {
+      showToast('一张图片处理失败，已跳过')
+    }
   }
   load()
 }

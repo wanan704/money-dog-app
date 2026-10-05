@@ -2,6 +2,20 @@
   <div class="page">
     <van-nav-bar title="我的" />
 
+    <div class="section-title">外观</div>
+    <van-cell-group inset>
+      <van-cell title="深色模式">
+        <template #right-icon>
+          <van-switch
+            :model-value="themeMode === 'dark'"
+            size="20"
+            active-color="#534AB7"
+            @update:model-value="toggleTheme"
+          />
+        </template>
+      </van-cell>
+    </van-cell-group>
+
     <div class="section-title">每日提醒</div>
     <van-cell-group inset>
       <van-cell title="开启提醒">
@@ -11,6 +25,7 @@
       </van-cell>
       <van-cell title="提醒时间" :value="reminderTime" is-link @click="showTimePicker = true" />
       <van-cell title="通知权限" :value="permissionText" is-link @click="askPermission" />
+      <van-cell title="测试通知" label="立即发一条通知验证功能" is-link @click="doTestNotify" />
     </van-cell-group>
     <div class="tip">
       提示：PWA 提醒依赖浏览器后台运行，请在系统设置中允许浏览器自启动/后台活动。
@@ -48,7 +63,8 @@ import { ref, computed, onMounted } from 'vue'
 import { showConfirmDialog, showToast } from 'vant'
 import { getSetting, setSetting } from '../db'
 import { exportBackup, importBackup } from '../utils/backup'
-import { requestNotifyPermission, rescheduleReminder } from '../utils/notify'
+import { requestNotifyPermission, rescheduleReminder, testNotification } from '../utils/notify'
+import { themeMode, setTheme } from '../utils/theme'
 
 const reminderEnabled = ref(false)
 const reminderTime = ref('21:00')
@@ -80,6 +96,21 @@ async function onTimeConfirm() {
   showTimePicker.value = false
   rescheduleReminder()
   showToast('已保存')
+}
+
+async function doTestNotify() {
+  const result = await requestNotifyPermission()
+  if (result !== 'granted') {
+    showToast('请先授权通知权限')
+    return
+  }
+  const ok = await testNotification()
+  showToast(ok ? '已发送，请查看通知栏' : '发送失败，请检查系统通知设置')
+}
+
+async function toggleTheme(val) {
+  await setTheme(val ? 'dark' : 'light')
+  showToast(val ? '已切换深色模式' : '已切换浅色模式')
 }
 
 async function askPermission() {

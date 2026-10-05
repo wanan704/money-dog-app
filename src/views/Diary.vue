@@ -160,11 +160,6 @@ function drawRandom() {
   const pick = allEntries.value[Math.floor(Math.random() * allEntries.value.length)]
   selectedDate.value = ''
   monthCursor.value = dayjs(pick.date).startOf('month')
-  showImagePreview({
-    images: [],
-    startPosition: 0
-  })
-  // 直接弹出该条内容
   showConfirmDialog({
     title: `来自 ${pick.date} 的证据`,
     message: pick.content,
